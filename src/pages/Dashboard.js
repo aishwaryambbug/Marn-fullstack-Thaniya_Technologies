@@ -1,13 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TaskCard from "../components/TaskCard";
 import TaskForm from "../components/TaskForm";
+import axios from "axios";
 
 function Dashboard() {
   const [tasks, setTasks] = useState([]);
 
-  const addTask = (task) => {
-    setTasks([task, ...tasks]);
+  // 🔹 Fetch tasks from backend
+  const fetchTasks = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/tasks");
+      setTasks(res.data);
+    } catch (err) {
+      console.log(err);
+    }
   };
+
+  // 🔹 Add task to backend
+  const addTask = async (task) => {
+    try {
+      await axios.post("http://localhost:5000/api/tasks", task);
+      fetchTasks(); // refresh after adding
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchTasks();
+  }, []);
 
   return (
     <div style={{
@@ -24,23 +45,16 @@ function Dashboard() {
           marginBottom: "20px",
           color: "#333"
         }}>
-           Task Manager Dashboard
+          🚀 Task Manager Dashboard
         </h1>
 
-        {/* Form */}
         <TaskForm addTask={addTask} />
 
-        {/* Task List */}
         {tasks.length === 0 ? (
-          <p style={{
-            textAlign: "center",
-            color: "#777"
-          }}>
-            No tasks yet
-          </p>
+          <p style={{ textAlign: "center" }}>No tasks yet</p>
         ) : (
-          tasks.map((task, index) => (
-            <TaskCard key={index} task={task} />
+          tasks.map((task) => (
+            <TaskCard key={task._id} task={task} />
           ))
         )}
       </div>
