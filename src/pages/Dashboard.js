@@ -29,6 +29,20 @@ function Dashboard() {
   useEffect(() => {
     fetchTasks();
   }, []);
+  // DELETE TASK
+const deleteTask = async (id) => {
+  await axios.delete(`http://localhost:5000/api/tasks/${id}`);
+  fetchTasks();
+};
+
+// UPDATE TASK
+const updateTask = async (id, updatedData) => {
+  await axios.put(
+    `http://localhost:5000/api/tasks/${id}`,
+    updatedData
+  );
+  fetchTasks();
+};
 
   return (
     <div style={{
@@ -45,7 +59,7 @@ function Dashboard() {
           marginBottom: "20px",
           color: "#333"
         }}>
-          🚀 Task Manager Dashboard
+          Task Manager Dashboard
         </h1>
 
         <TaskForm addTask={addTask} />
@@ -54,8 +68,13 @@ function Dashboard() {
           <p style={{ textAlign: "center" }}>No tasks yet</p>
         ) : (
           tasks.map((task) => (
-            <TaskCard key={task._id} task={task} />
-          ))
+  <TaskCard
+    key={task._id}
+    task={task}
+    deleteTask={deleteTask}
+    updateTask={updateTask}
+  />
+))
         )}
       </div>
     </div>

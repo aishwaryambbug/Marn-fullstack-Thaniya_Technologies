@@ -1,38 +1,26 @@
 import React from "react";
 
-function TaskCard({ task }) {
+function TaskCard({ task, deleteTask, updateTask }) {
   return (
     <div style={{
       background: "#fff",
       padding: "15px",
       marginTop: "10px",
       borderRadius: "10px",
-      boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center"
+      boxShadow: "0 2px 8px rgba(0,0,0,0.1)"
     }}>
-      <div>
-        <h3 style={{ margin: 0 }}>{task.title}</h3>
-        <p style={{ margin: 0, color: "#777" }}>
-          Status: {task.status}
-        </p>
-      </div>
+      <h3>{task.title}</h3>
+      <p>Status: {task.status}</p>
 
-      <span style={{
-        padding: "5px 10px",
-        borderRadius: "20px",
-        background:
-          task.status === "done"
-            ? "#4CAF50"
-            : task.status === "in-progress"
-            ? "#ff9800"
-            : "#2196f3",
-        color: "#fff",
-        fontSize: "12px"
-      }}>
-        {task.status}
-      </span>
+      <button onClick={() => deleteTask(task._id)}>
+        Delete
+      </button>
+
+      <button onClick={() =>
+        updateTask(task._id, { status: "done" })
+      }>
+        Mark Done
+      </button>
     </div>
   );
 }
