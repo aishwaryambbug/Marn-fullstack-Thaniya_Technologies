@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
 function Login() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: ""
@@ -26,6 +28,8 @@ function Login() {
       localStorage.setItem("token", res.data.token);
 
       alert("Login Successful");
+
+      navigate("/dashboard");
 
     } catch (error) {
       alert("Invalid Credentials");
@@ -61,6 +65,12 @@ function Login() {
           Login
         </button>
       </form>
+      <p>
+  Don't have account?
+  <Link to="/register">
+    Register
+  </Link>
+</p>
     </div>
   );
 }

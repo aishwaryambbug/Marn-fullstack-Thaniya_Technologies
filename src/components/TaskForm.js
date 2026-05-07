@@ -10,7 +10,7 @@ function TaskForm({ addTask }) {
 
     addTask({
       title,
-      status: "todo"
+      status: "Task not completed Yet"
     });
 
     setTitle("");

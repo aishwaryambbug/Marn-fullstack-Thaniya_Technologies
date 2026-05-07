@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
 function Register() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -25,6 +27,8 @@ function Register() {
       );
 
       alert("Registration Successful");
+
+    navigate("/");
 
     } catch (error) {
       alert("Error");
@@ -70,6 +74,12 @@ function Register() {
           Register
         </button>
       </form>
+      <p>
+  Already have account?
+  <Link to="/">
+    Login
+  </Link>
+</p>
     </div>
   );
 }
